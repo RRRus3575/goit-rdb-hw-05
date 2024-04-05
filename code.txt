@@ -1,0 +1,33 @@
+1.
+select id, order_id, product_id, quantity,(select customer_id from orders where order_id = orders.id) as customers_id from order_details;
+
+
+2.
+select id, order_id, product_id, quantity from order_details
+where (select shipper_id from orders where order_id = orders.id and shipper_id=3);
+
+
+3.
+select  order_id, AVG(quantity) as quantity from (select * from order_details where quantity >10 ) as temp group by order_id;
+
+
+4.
+with temp as (select AVG(quantity) as quantity from order_details where quantity >10 group by order_id ) select * from order_details;
+
+
+5.
+DROP FUNCTION IF EXISTS priceDivide;
+
+DELIMITER //
+
+CREATE FUNCTION priceDivide(quantity INT, quantity2 INT)
+
+RETURNS FLOAT
+NO SQL
+DETERMINISTIC
+BEGIN
+  SET @result = quantity/quantity2;	
+  return @result;
+END//
+
+DELIMITER ;
