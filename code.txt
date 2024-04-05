@@ -12,7 +12,7 @@ select  order_id, AVG(quantity) as quantity from (select * from order_details wh
 
 
 4.
-with temp as (select AVG(quantity) as quantity from order_details where quantity >10 group by order_id ) select * from order_details;
+with temp as (select order_id, AVG(quantity) as quantity from order_details where quantity >10 group by order_id ) select * from temp;
 
 
 5.
@@ -20,7 +20,7 @@ DROP FUNCTION IF EXISTS priceDivide;
 
 DELIMITER //
 
-CREATE FUNCTION priceDivide(quantity INT, quantity2 INT)
+CREATE FUNCTION priceDivide(quantity FLOAT, quantity2 FLOAT)
 
 RETURNS FLOAT
 NO SQL
